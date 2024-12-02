@@ -1,10 +1,120 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Separator, ToggleButton} from '../components';
+import {Color, Fonts, Images} from '../contants';
+import {useNavigation} from '@react-navigation/native';
+import Display from '../utils/Display';
 
 const SigninScreen = () => {
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      <Text>text</Text>
+      <StatusBar
+        barStyle={'dark-content'}
+        backgroundColor={Color.DEFAULT_WHITE}
+      />
+      <Separator height={StatusBar.currentHeight} />
+      <View style={styles.headerContainer}>
+        <Ionicons
+          name="chevron-back"
+          size={30}
+          onPress={() => navigation.goBack()}
+        />
+
+        <Text style={styles.headerTitle}>Sign In</Text>
+      </View>
+      <Text style={styles.title}>Welcome</Text>
+      <Text style={styles.content}>
+        Enter your username and password, and start exploring job opportunities
+        with Joli.
+      </Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="user"
+            size={23}
+            color={Color.DEFAULT_GREY}
+            style={{marginRight: 10}}
+          />
+          <TextInput
+            placeholder="Username"
+            placeholderTextColor={Color.DEFAULT_GREY}
+            selectionColor={Color.DEFAULT_GREY}
+            style={styles.inputText}
+          />
+        </View>
+      </View>
+      <Separator height={15} />
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="lock"
+            size={22}
+            color={Color.DEFAULT_GREY}
+            style={{marginRight: 10}}
+          />
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor={Color.DEFAULT_GREY}
+            secureTextEntry={isPasswordShow ? false : true}
+            selectionColor={Color.DEFAULT_GREY}
+            style={styles.inputText}
+          />
+          <Feather
+            name={isPasswordShow ? 'eye' : 'eye-off'}
+            size={22}
+            onPress={() => setIsPasswordShow(!isPasswordShow)}
+            color={Color.DEFAULT_GREY}
+            style={{marginRight: 10}}
+          />
+        </View>
+      </View>
+      <Text></Text>
+      <View style={styles.forgetPasswordContainer}>
+        <View style={styles.toggleContainer}>
+          <ToggleButton size={0.5}/>
+          <Text style={styles.rememberText}>Remember me</Text>
+        </View>
+        <Text style={styles.forgotPasswordText}>Forgot Password</Text>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.SigninButton}>
+          <Text style={styles.SigninButtonText}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.signUpContainer}>
+        <Text style={styles.accountText}>Don't have an account?</Text>
+        <Text style={styles.signUpText}>Sign Up</Text>
+      </View>
+      <Text style={styles.orText}>OR</Text>
+      <TouchableOpacity style={styles.facebookButton}>
+        <View style={styles.socialButtonContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.signinButtonText}>Connect with google</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.googleButton}>
+        <View style={styles.socialButtonContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.GOOGLE} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.signinButtonText}>Connect with facebook</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -12,7 +122,165 @@ const SigninScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Color.DEFAULT_WHITE,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  headerTitle: {
+    fontSize: 20,
+    lineHeight: 20 * 1.4,
+    width: Display.setWidth(80),
+    textAlign: 'center',
+    fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  title: {
+    fontSize: 20,
+    lineHeight: 20 * 1.4,
+    marginTop: 50,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+  },
+  content: {
+    fontSize: 17,
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 20,
+    fontFamily: Fonts.POPPINS_REGULAR,
+  },
+  inputContainer: {
+    backgroundColor: Color.LIGHT_GREY,
+    paddingHorizontal: 10,
+    marginHorizontal: 20,
+    borderRadius: 8,
+    borderWidth: 0.5,
+    borderColor: Color.LIGHT_GREY,
     justifyContent: 'center',
+  },
+  inputSubContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  inputText: {
+    fontSize: 18,
+    textAlignVertical: 'center',
+    padding: 0,
+    height: Display.setHeight(6),
+    color: Color.DEFAULT_BLACK,
+    flex: 1,
+    fontFamily: Fonts.POPPINS_REGULAR,
+  },
+  forgetPasswordContainer: {
+    marginHorizontal: 20,
+    width: Display.setWidth(90),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  rememberText: {
+    marginLeft: 10,
+    fontSize: 12,
+    lineHeight: 12 * 1.4,
+    color: Color.DEFAULT_GREY,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  forgotPasswordText: {
+    fontSize: 12,
+    lineHeight: 12 * 1.4,
+    color: Color.BLUE,
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+  },
+  SigninButton: {
+    backgroundColor: Color.BLUE,
+    borderRadius: 8,
+    marginHorizontal: 20,
+    height: Display.setHeight(6),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  SigninButtonText: {
+    fontSize: 18,
+    lineHeight: 18 * 1.4,
+    color: Color.DEFAULT_WHITE,
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+  },
+  signUpContainer: {
+    marginHorizontal: 20,
+    justifyContent: 'center',
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: Display.setWidth(90),
+  },
+  accountText: {
+    fontSize: 13,
+    lineHeight: 13 * 1.4,
+    color: Color.DEFAULT_BLACK,
+    fontFamily: Fonts.POPPINS_REGULAR,
+  },
+  signUpText: {
+    fontSize: 13,
+    lineHeight: 13 * 1.4,
+    color: Color.BLUE,
+    marginLeft: 5,
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+  },
+  orText: {
+    fontSize: 15,
+    lineHeight: 15 * 1.4,
+    color: Color.BLUE,
+    textAlign: 'center',
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+  },
+  facebookButton: {
+    backgroundColor: Color.FACEBOOK_BLUE,
+    paddingVertical: 15,
+    marginHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  googleButton: {
+    backgroundColor: Color.GOOGLE_BLUE,
+    paddingVertical: 15,
+    marginHorizontal: 20,
+    borderRadius: 8,
+    marginVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  signinButtonLogo: {
+    height: 20,
+    width: 20,
+  },
+  signinButtonLogoContainer: {
+    padding: 2,
+    borderRadius: 1,
+    position: 'absolute',
+    left: 25,
+    backgroundColor: Color.DEFAULT_WHITE,
+  },
+  socialButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  signinButtonText: {
+    color: Color.DEFAULT_WHITE,
+    fontSize: 13,
+    lineHeight: 13 * 1.4,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
 });

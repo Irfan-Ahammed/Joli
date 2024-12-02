@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {StyleSheet, Text, View, StatusBar, Image} from 'react-native';
-import {Color, Fonts} from '../contants';
+import {Color} from '../contants';
 import images from '../contants/images';
 import { Display } from '../utils';
 
@@ -22,7 +22,6 @@ const SplashScreen = ({navigation}) => {
         resizeMode="contain"
         source={images.LOGO_TITLE}
       />
-
     </View>
   );
 };

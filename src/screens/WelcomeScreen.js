@@ -50,7 +50,7 @@ const WelcomeScreen = ({navigation}) => {
     <View style={styles.container}>
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={Color.DARK_SECONDARY}
+        backgroundColor={Color.DEFAULT_WHITE}
         translucent
       />
       <Separator height={StatusBar.currentHeight} />
@@ -73,9 +73,10 @@ const WelcomeScreen = ({navigation}) => {
       <Pagination index={welcomelistIndex} />
       <Separator height={Display.default.setHeight(8)} />
       {welcomelistIndex === 2 ? (
-        <TouchableOpacity activeOpacity={0.8}
-        onPress={()=> navigation.navigate('Signin')}
-        style={styles.gettingStartedButton}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Signin')}
+          style={styles.gettingStartedButton}>
           <Text style={styles.gettingStartedButtonText}>Get Started</Text>
         </TouchableOpacity>
       ) : (
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
   page: {
     height: 8,
     width: 15,
-    backgroundColor: Color.DARK_SECONDARY,
+    backgroundColor: Color.BLUE,
     borderRadius: 32,
     marginHorizontal: 5,
   },
@@ -127,8 +128,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
-    fontFamily: Fonts.POPPINS_BOLD,
-    fontWeight: '800',
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
     // lineHeight:16*1.4,
   },
   button: {
@@ -138,19 +138,19 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   gettingStartedButton: {
-    backgroundColor: Color.DARK_SECONDARY,
+    backgroundColor: Color.BLUE,
     borderRadius: 8,
-    paddingHorizontal: 40,
-    paddingVertical: 5,
+    paddingHorizontal: 50,
+    paddingVertical: 8,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2,
-    marginBottom:25
+    marginBottom: 20,
   },
   gettingStartedButtonText: {
     fontSize: 20,
     color: Color.DEFAULT_WHITE,
     lineHeight: 20 * 1.4,
-    fontWeight:"500"
+    fontFamily:Fonts.POPPINS_MEDIUM
   },
 });
