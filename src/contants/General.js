@@ -1,3 +1,6 @@
+import PageOne from '../components/signUp/PageOne';
+import PageTwo from '../components/signUp/PageTwo';
+
 const WELCOME_CONTENTS = [
   {
     title: 'Welcome to Joli!',
@@ -18,5 +21,13 @@ const WELCOME_CONTENTS = [
     image: 'GetRewarded',
   },
 ];
+const registerScreens = [
+  {
+    component: <PageOne />,
+  },
+  {
+    component: <PageTwo />,
+  },
+];
 
-export default {WELCOME_CONTENTS};
+export default {WELCOME_CONTENTS, registerScreens};

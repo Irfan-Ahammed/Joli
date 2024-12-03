@@ -9,65 +9,35 @@ import {
   Image,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Separator, ToggleButton} from '../components';
-import {Color, Fonts, Images} from '../contants';
+import {Separator, ToggleButton} from '../../components';
+import {Color, Fonts, Images} from '../../contants';
 import {useNavigation} from '@react-navigation/native';
-import Display from '../utils/Display';
+import Display from '../../utils/Display';
 
-const SigninScreen = () => {
+const PageOne = () => {
+  const navigateToPageTwo = () => {
+    navigation.navigate('PageTwo');
+  };
   const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const [isEmailFilled, setIsEmailFilled] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={Color.DEFAULT_WHITE}
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.headerContainer}>
-        <Ionicons
-          name="chevron-back"
-          size={30}
-          onPress={() => navigation.goBack()}
-        />
-
-        <Text style={styles.headerTitle}>Sign In</Text>
-      </View>
-      <Text style={styles.title}>Welcome</Text>
-      <Text style={styles.content}>
-        Enter your username and password, and start exploring job opportunities
-        with Joli.
-      </Text>
-      <TouchableOpacity style={styles.facebookButton}>
-        <View style={styles.socialButtonContainer}>
-          <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
-          <Text style={styles.signinButtonText}>Connect with google</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.googleButton}>
-        <View style={styles.socialButtonContainer}>
-          <Image source={Images.GOOGLE} style={styles.signinButtonLogo} />
-          <Text style={styles.signinButtonText}>Connect with facebook</Text>
-        </View>
-      </TouchableOpacity>
-      <View style={styles.orContainer}>
-        <Text style={styles.orLeftRight} />
-        <Text style={styles.orText}>or</Text>
-        <Text style={styles.orLeftRight} />
-      </View>
-
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
           <Feather
-            name="user"
+            name="mail"
             size={20}
             color={Color.DEFAULT_BLACK}
             style={{marginRight: 10}}
           />
           <TextInput
-            placeholder="Username"
+            placeholder="Email"
+            textContentType="emailAddress"
+            onSubmitEditing={() => setIsEmailFilled(!isEmailFilled)}
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
@@ -75,49 +45,52 @@ const SigninScreen = () => {
         </View>
       </View>
       <Separator height={15} />
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <Feather
-            name="lock"
-            size={20}
-            color={Color.DEFAULT_BLACK}
-            style={{marginRight: 10}}
-          />
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor={Color.DEFAULT_BLACK}
-            secureTextEntry={isPasswordShow ? false : true}
-            selectionColor={Color.DEFAULT_BLACK}
-            style={styles.inputText}
-          />
-          <Feather
-            name={isPasswordShow ? 'eye' : 'eye-off'}
-            size={22}
-            onPress={() => setIsPasswordShow(!isPasswordShow)}
-            color={Color.DEFAULT_BLACK}
-            style={{marginRight: 10}}
-          />
+      {isEmailFilled ? (
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="lock"
+              size={20}
+              color={Color.DEFAULT_BLACK}
+              style={{marginRight: 10}}
+            />
+            <TextInput
+              placeholder="Password"
+              textContentType="password"
+              placeholderTextColor={Color.DEFAULT_BLACK}
+              secureTextEntry={isPasswordShow ? false : true}
+              selectionColor={Color.DEFAULT_BLACK}
+              style={styles.inputText}
+            />
+            <Feather
+              name={isPasswordShow ? 'eye' : 'eye-off'}
+              size={22}
+              onPress={() => setIsPasswordShow(!isPasswordShow)}
+              color={Color.DEFAULT_BLACK}
+              style={{marginRight: 10}}
+            />
+          </View>
         </View>
-      </View>
-      <Text></Text>
-      <View style={styles.forgetPasswordContainer}>
-        <View style={styles.toggleContainer}>
-          <ToggleButton size={0.5} />
-          <Text style={styles.rememberText}>Remember me</Text>
-        </View>
-        <Text style={styles.forgotPasswordText}>Forgot Password</Text>
-      </View>
+      ) : null}
+      <Text style={styles.privacyContainer}>
+        By clicking Agree & Join or Countinue, you agree to the Joli
+        <Text style={styles.privacy}> User Agreement, Privacy Policy </Text>and
+        <Text style={styles.privacy}> Cookie Policy</Text>. For phone number
+        signups we will send code via SMS
+      </Text>
       <View>
-        <TouchableOpacity style={styles.SigninButton}>
-          <Text style={styles.SigninButtonText}>Sign In</Text>
+        <TouchableOpacity
+          style={styles.SigninButton}
+          onPress={navigateToPageTwo}>
+          <Text style={styles.SigninButtonText}>Agree & Join</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.signUpContainer}>
-        <Text style={styles.accountText}>Don't have an account?</Text>
+        <Text style={styles.accountText}>Already have an account?</Text>
         <Text
-          onPress={() => navigation.navigate('SignUp')}
+          onPress={() => navigation.navigate('Signin')}
           style={styles.signUpText}>
-          Sign Up
+          Sign In
         </Text>
       </View>
     </View>
@@ -129,33 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.DEFAULT_WHITE,
   },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  headerTitle: {
-    fontSize: 20,
-    lineHeight: 20 * 1.4,
-    width: Display.setWidth(80),
-    textAlign: 'center',
-    fontFamily: Fonts.POPPINS_MEDIUM,
-  },
-  title: {
-    fontSize: 20,
-    lineHeight: 20 * 1.4,
-    marginTop: 50,
-    marginBottom: 10,
-    marginHorizontal: 20,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-  },
-  content: {
-    fontSize: 15,
-    marginHorizontal: 20,
-    marginTop: 10,
-    fontFamily: Fonts.POPPINS_REGULAR,
-  },
+
   inputContainer: {
     paddingHorizontal: 10,
     marginHorizontal: 20,
@@ -296,6 +243,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  privacyContainer: {
+    fontSize: 12,
+    marginHorizontal: 20,
+    marginTop: 20,
+  },
+  privacy: {
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    color: Color.BLUE,
+  },
 });
 
-export default SigninScreen;
+export default PageOne;

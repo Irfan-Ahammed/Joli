@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   gettingStartedButton: {
     backgroundColor: Color.BLUE,
-    borderRadius: 8,
+    borderRadius: 50,
     paddingHorizontal: 50,
     paddingVertical: 8,
     justifyContent: 'center',
