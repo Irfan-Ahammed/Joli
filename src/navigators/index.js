@@ -6,6 +6,7 @@ import {
   SigninScreen,
   SignUpScreen,
   WelcomeScreen,
+  ForgetPassword,
 } from '../screens';
 
 const Stack = createStackNavigator();
@@ -18,6 +19,7 @@ const Navigators = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="ForgotPass" component={ForgetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
