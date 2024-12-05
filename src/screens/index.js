@@ -3,6 +3,9 @@ import WelcomeScreen from './WelcomeScreen';
 import SigninScreen from './SigninScreen';
 import SignUpScreen from './SignUpScreen';
 import ForgetPassword from './ForgetPassword';
+import PageOne from './signUp/PageOne';
+import PageTwo from './signUp/PageTwo';
+import RegisterPhone from './RegisterPhone';
 
 export {
   SplashScreen,
@@ -10,4 +13,7 @@ export {
   SigninScreen,
   WelcomeScreen,
   SignUpScreen,
+  PageOne,
+  PageTwo,
+  RegisterPhone,
 };

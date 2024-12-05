@@ -1,5 +1,5 @@
-import PageOne from '../components/signUp/PageOne';
-import PageTwo from '../components/signUp/PageTwo';
+import PageOne from '../screens/signUp/PageOne';
+import PageTwo from '../screens/signUp/PageTwo';
 
 const WELCOME_CONTENTS = [
   {

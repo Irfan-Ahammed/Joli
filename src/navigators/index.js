@@ -7,6 +7,7 @@ import {
   SignUpScreen,
   WelcomeScreen,
   ForgetPassword,
+  RegisterPhone,
 } from '../screens';
 
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ const Navigators = () => {
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgotPass" component={ForgetPassword} />
+        <Stack.Screen name="RegisterPhone" component={RegisterPhone} />
       </Stack.Navigator>
     </NavigationContainer>
   );

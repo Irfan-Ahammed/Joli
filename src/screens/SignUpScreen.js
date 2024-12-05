@@ -1,19 +1,12 @@
 import React, {useRef, useState} from 'react';
 import {View, Text, navigation, StyleSheet, StatusBar} from 'react-native';
-import {
-  PageOne,
-  PageThree,
-  PageTwo,
-  ProgressBar,
-  Separator,
-  SignUpScreens,
-} from '../components';
+import {ProgressBar, Separator} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Color, Fonts, General} from '../contants';
 import Display from '../utils/Display';
 import {createStackNavigator} from '@react-navigation/stack';
-import {FlatList} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {PageOne, PageTwo} from './index';
 
 const Stack = createStackNavigator();
 

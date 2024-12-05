@@ -14,21 +14,29 @@ import {Color, Fonts, Images} from '../../contants';
 import {useNavigation} from '@react-navigation/native';
 import Display from '../../utils/Display';
 
-const PageTwo = ({goToNextPage}) => {
+const PageOne = () => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isEmailFilled, setIsEmailFilled] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const navigation = useNavigation();
 
-  const navigateBackToPageOne = () => {
-    navigation.goBack();
+  const navigateToPageTwo = () => {
+    navigation.navigate('PageTwo');
   };
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
+          <Feather
+            name="mail"
+            size={20}
+            color={Color.DEFAULT_BLACK}
+            style={{marginRight: 10}}
+          />
           <TextInput
-            placeholder="First name"
+            placeholder="Email"
+            textContentType="emailAddress"
             onSubmitEditing={() => setIsEmailFilled(!isEmailFilled)}
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
@@ -36,41 +44,51 @@ const PageTwo = ({goToNextPage}) => {
           />
         </View>
       </View>
-      <Separator height={25} />
-
-      <View style={styles.inputContainer}>
-        <View style={styles.inputSubContainer}>
-          <TextInput
-            placeholder="Last name"
-            onSubmitEditing={() => setIsEmailFilled(!isEmailFilled)}
-            placeholderTextColor={Color.DEFAULT_BLACK}
-            selectionColor={Color.DEFAULT_BLACK}
-            style={styles.inputText}
-          />
+      <Separator height={15} />
+      {isEmailFilled ? (
+        <View style={styles.inputContainer}>
+          <View style={styles.inputSubContainer}>
+            <Feather
+              name="lock"
+              size={20}
+              color={Color.DEFAULT_BLACK}
+              style={{marginRight: 10}}
+            />
+            <TextInput
+              placeholder="Password"
+              textContentType="password"
+              placeholderTextColor={Color.DEFAULT_BLACK}
+              secureTextEntry={isPasswordShow ? false : true}
+              selectionColor={Color.DEFAULT_BLACK}
+              style={styles.inputText}
+            />
+            <Feather
+              name={isPasswordShow ? 'eye' : 'eye-off'}
+              size={22}
+              onPress={() => setIsPasswordShow(!isPasswordShow)}
+              color={Color.DEFAULT_BLACK}
+              style={{marginRight: 10}}
+            />
+          </View>
         </View>
-      </View>
-      <Separator height={25} />
+      ) : null}
+      <Text style={styles.privacyContainer}>
+        By clicking Agree & Join or Countinue, you agree to the Joli
+        <Text style={styles.privacy}> User Agreement, Privacy Policy </Text>and
+        <Text style={styles.privacy}> Cookie Policy</Text>. For phone number
+        signups we will send code via SMS
+      </Text>
       <View>
-        <View style={styles.rememberContainer}>
-          <ToggleButton size={0.6} />
-          <Text style={{fontSize: 14, marginLeft: 5}}>
-            Remember me.
-            <Text style={{fontSize: 14, fontWeight: '600', color: Color.BLUE}}>
-              {' '}
-              Learn more
-            </Text>
-          </Text>
-        </View>
-        <TouchableOpacity style={styles.SigninButton}>
-          <Text style={styles.SigninButtonText}  onPress={navigateBackToPageOne}>
-            Continue
-          </Text>
+        <TouchableOpacity
+          style={styles.SigninButton}
+          onPress={navigateToPageTwo}>
+          <Text style={styles.SigninButtonText}>Agree & Join</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Already have an account?</Text>
         <Text
-          onPress={() => navigation.navigate('Signin')||scrollPage()}
+          onPress={() => navigation.navigate('Signin')}
           style={styles.signUpText}>
           Sign In
         </Text>
@@ -234,11 +252,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
     color: Color.BLUE,
   },
-  rememberContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 20,
-  },
 });
 
-export default PageTwo;
+export default PageOne;
