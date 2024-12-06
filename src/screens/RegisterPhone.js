@@ -26,6 +26,7 @@ const RegisterPhone = () => {
   const [inputContainerY, setInputContainerY] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownLayout, setDropdownLayout] = useState({});
+  const [phoneNumber, setPhoneNumber] = useState('');
   const navigation = useNavigation();
 
   const flagUrl = StaticImageService.getFlagIcon(
@@ -90,7 +91,11 @@ const RegisterPhone = () => {
             placeholderTextColor={Color.DEFAULT_GREY}
             selectionColor={Color.DEFAULT_GREY}
             keyboardType="number-pad"
+            onFocus={() => setIsDropdownOpen(false)}
             style={styles.inputText}
+            onChangeText={text =>
+              setPhoneNumber(selectedCountry?.dial_code + text)
+            }
           />
         </View>
       </View>
@@ -120,7 +125,9 @@ const RegisterPhone = () => {
       <Separator height={10} />
 
       <View>
-        <TouchableOpacity style={styles.SigninButton}>
+        <TouchableOpacity
+          style={styles.SigninButton}
+          onPress={() => navigation.navigate('Verification', {phoneNumber})}>
           <Text style={styles.SigninButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>

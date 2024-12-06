@@ -6,9 +6,11 @@ import ForgetPassword from './ForgetPassword';
 import PageOne from './signUp/PageOne';
 import PageTwo from './signUp/PageTwo';
 import RegisterPhone from './RegisterPhone';
+import Verification from './Verification';
 
 export {
   SplashScreen,
+  Verification,
   ForgetPassword,
   SigninScreen,
   WelcomeScreen,
