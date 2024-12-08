@@ -8,17 +8,19 @@ import {
 } from 'react-native';
 import {Separator, ToggleButton} from '../../components';
 import {Color, Fonts} from '../../contants';
-import {useNavigation} from '@react-navigation/native';
 import Display from '../../utils/Display';
+import {signUpScreenTwo} from '../../services/auth';
 
-const PageTwo = ({goToNextPage}) => {
-  const [isPasswordShow, setIsPasswordShow] = useState(false);
+const PageTwo = ({navigation}) => {
   const [isEmailFilled, setIsEmailFilled] = useState(false);
-
-  const navigation = useNavigation();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [error, setError] = useState('');
+  console.log(error);
 
   const navigateToPageTwo = () => {
-    navigation.navigate('RegisterPhone');
+    setError('');
+    signUpScreenTwo(firstName, lastName, navigation, setError);
   };
   return (
     <View style={styles.container}>
@@ -30,6 +32,8 @@ const PageTwo = ({goToNextPage}) => {
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
+            value={firstName}
+            onChangeText={setFirstName}
           />
         </View>
       </View>
@@ -43,6 +47,8 @@ const PageTwo = ({goToNextPage}) => {
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
+            value={lastName}
+            onChangeText={setLastName}
           />
         </View>
       </View>
@@ -57,6 +63,7 @@ const PageTwo = ({goToNextPage}) => {
             </Text>
           </Text>
         </View>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
         <TouchableOpacity
           style={styles.SigninButton}
           onPress={navigateToPageTwo}>
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
     height: Display.setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   SigninButtonText: {
     fontSize: 18,
@@ -130,102 +137,18 @@ const styles = StyleSheet.create({
     color: Color.DEFAULT_WHITE,
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
   },
-  signUpContainer: {
-    marginHorizontal: 20,
-    justifyContent: 'center',
-    paddingVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: Display.setWidth(90),
-  },
-  accountText: {
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    color: Color.DEFAULT_BLACK,
-    fontFamily: Fonts.POPPINS_REGULAR,
-  },
-  signUpText: {
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    color: Color.BLUE,
-    marginLeft: 5,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-  },
-  orContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 15,
-  },
-
-  orLeftRight: {
-    flex: 1,
-    height: 1,
-    backgroundColor: Color.DEFAULT_GREY,
-    marginHorizontal: 20,
-  },
-
-  orText: {
-    fontSize: 13,
-    color: Color.DEFAULT_BLACK,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    textAlign: 'center',
-  },
-
-  facebookButton: {
-    paddingVertical: 12,
-    marginHorizontal: 20,
-    borderRadius: 50,
-    marginVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: Color.DEFAULT_BLACK,
-    borderWidth: 1,
-  },
-  googleButton: {
-    paddingVertical: 12,
-    marginHorizontal: 20,
-    borderRadius: 50,
-    marginVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: Color.DEFAULT_BLACK,
-    borderWidth: 1,
-  },
-  signinButtonLogo: {
-    height: 22,
-    width: 22,
-    marginRight: 5,
-  },
-
-  socialButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  signinButtonText: {
-    color: Color.DEFAULT_BLACK,
-    fontSize: 17,
-    lineHeight: 17 * 1.4,
-    fontWeight: '500',
-  },
-  toggleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  privacyContainer: {
-    fontSize: 12,
-    marginHorizontal: 20,
-    marginTop: 20,
-  },
-  privacy: {
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
-    color: Color.BLUE,
-  },
   rememberContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 20,
+    marginBottom:10
+  },
+  errorText: {
+    marginHorizontal: 20,
+    textAlign: 'center',
+    color: Color.DEFAULT_RED,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    fontSize: 14,
   },
 });
 

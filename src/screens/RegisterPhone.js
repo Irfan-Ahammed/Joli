@@ -16,8 +16,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import Display from '../utils/Display';
 import {StaticImageService} from '../services';
+import auth from '@react-native-firebase/auth';
 
-const getDropDownStyle = y => ({...styles.countryDropdown, top: y + 60});
+const getDropDownStyle = y => ({
+  ...styles.countryDropdown,
+  top: y + 60,
+});
 
 const RegisterPhone = () => {
   const [selectedCountry, setSelectedCountry] = useState(
@@ -34,18 +38,33 @@ const RegisterPhone = () => {
     'flat',
     '64',
   );
+
   const closeDropdown = (pageX, pageY) => {
-    if (isDropdownOpen) {
-      if (
-        pageX < dropdownLayout?.x ||
+    if (
+      isDropdownOpen &&
+      (pageX < dropdownLayout?.x ||
         pageX > dropdownLayout?.x + dropdownLayout?.width ||
         pageY < dropdownLayout?.y ||
-        pageY > dropdownLayout?.y + dropdownLayout?.height
-      ) {
-        setIsDropdownOpen(false);
-      }
+        pageY > dropdownLayout?.y + dropdownLayout?.height)
+    ) {
+      setIsDropdownOpen(false);
     }
   };
+
+  const sendOTP = async phoneNumber => {
+    if (!phoneNumber || phoneNumber.length < 10) {
+      alert('Please enter a valid phone number.');
+      return;
+    }
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      navigation.navigate('Verification', {phoneNumber, confirmation});
+    } catch (error) {
+      alert('Failed to send OTP. Please try again.');
+      console.error('OTP Sending Error:', error);
+    }
+  };
+
   return (
     <View
       style={styles.container}
@@ -57,13 +76,14 @@ const RegisterPhone = () => {
         backgroundColor={Color.DEFAULT_WHITE}
       />
       <Separator height={StatusBar.currentHeight} />
+
+      {/* Header */}
       <View style={styles.headerContainer}>
         <Ionicons
           name="chevron-back"
           size={30}
           onPress={() => navigation.goBack()}
         />
-
         <Text style={styles.headerTitle}>Register</Text>
       </View>
 
@@ -71,6 +91,7 @@ const RegisterPhone = () => {
         Enter your registered phone number to login
       </Text>
 
+      {/* Input Container */}
       <View
         style={styles.inputContainer}
         onLayout={({
@@ -99,6 +120,8 @@ const RegisterPhone = () => {
           />
         </View>
       </View>
+
+      {/* Dropdown */}
       {isDropdownOpen && (
         <View
           style={getDropDownStyle(inputContainerY)}
@@ -122,12 +145,14 @@ const RegisterPhone = () => {
           />
         </View>
       )}
+
       <Separator height={10} />
 
+      {/* Continue Button */}
       <View>
         <TouchableOpacity
           style={styles.SigninButton}
-          onPress={() => navigation.navigate('Verification', {phoneNumber})}>
+          onPress={() => sendOTP(phoneNumber)}>
           <Text style={styles.SigninButtonText}>Continue</Text>
         </TouchableOpacity>
       </View>

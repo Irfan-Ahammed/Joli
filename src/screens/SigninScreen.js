@@ -14,11 +14,19 @@ import {Separator, ToggleButton} from '../components';
 import {Color, Fonts, Images} from '../contants';
 import {useNavigation} from '@react-navigation/native';
 import Display from '../utils/Display';
+import {signIn} from '../services/auth';
 
-const SigninScreen = () => {
+const SigninScreen = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  console.log(error);
 
+  const successfullyLogedIn = () => {
+    setError('');
+    signIn(email, password, navigation, setError);
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -61,16 +69,18 @@ const SigninScreen = () => {
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
           <Feather
-            name="user"
+            name="mail"
             size={20}
             color={Color.DEFAULT_BLACK}
             style={{marginRight: 10}}
           />
           <TextInput
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
       </View>
@@ -89,6 +99,8 @@ const SigninScreen = () => {
             secureTextEntry={isPasswordShow ? false : true}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
+            value={password}
+            onChangeText={setPassword}
           />
           <Feather
             name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -99,7 +111,7 @@ const SigninScreen = () => {
           />
         </View>
       </View>
-      <Text></Text>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <View style={styles.forgetPasswordContainer}>
         <View style={styles.toggleContainer}>
           <ToggleButton size={0.5} />
@@ -112,7 +124,9 @@ const SigninScreen = () => {
         </Text>
       </View>
       <View>
-        <TouchableOpacity style={styles.SigninButton}>
+        <TouchableOpacity
+          style={styles.SigninButton}
+          onPress={successfullyLogedIn}>
           <Text style={styles.SigninButtonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
@@ -184,10 +198,12 @@ const styles = StyleSheet.create({
   },
   forgetPasswordContainer: {
     marginHorizontal: 20,
+    marginTop: 16,
     width: Display.setWidth(90),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    
   },
   rememberText: {
     marginLeft: 10,
@@ -299,6 +315,14 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  errorText: {
+    marginHorizontal: 20,
+    textAlign: 'center',
+    color: Color.DEFAULT_RED,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    fontSize: 14,
+    marginTop:7,
   },
 });
 

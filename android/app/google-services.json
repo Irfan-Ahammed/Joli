@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "660670960225",
+    "project_id": "joli-a1fb9",
+    "storage_bucket": "joli-a1fb9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660670960225:android:7e01216148dadc744cd020",
+        "android_client_info": {
+          "package_name": "com.joli"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwAq09XszhI4kSnGLN-H-l6Bd0OtQUmuM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

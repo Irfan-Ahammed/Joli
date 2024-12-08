@@ -15,15 +15,39 @@ import Display from '../utils/Display';
 
 const Verification = ({
   route: {
-    params: {phoneNumber},
+    params: {phoneNumber, confirmation},
   },
 }) => {
   const navigation = useNavigation();
+  const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+
   const firstInput = useRef();
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
-  const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+
+  const verifyOTP = async () => {
+    const otpCode = `${otp[1]}${otp[2]}${otp[3]}${otp[4]}`;
+    if (otpCode.length !== 4) {
+      alert('Please enter the complete OTP.');
+      return;
+    }
+    try {
+      const userCredential = await confirmation.confirm(otpCode);
+      console.log('User signed in successfully:', userCredential.user);
+      alert('Verification successful!');
+      navigation.navigate('Home');
+    } catch (error) {
+      if (error.code === 'auth/invalid-verification-code') {
+        alert('Invalid OTP. Please try again.');
+      } else if (error.code === 'auth/session-expired') {
+        alert('OTP session expired. Please request a new one.');
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+      console.error('Verification Error:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -38,14 +62,14 @@ const Verification = ({
           size={30}
           onPress={() => navigation.goBack()}
         />
-
         <Text style={styles.headerTitle}>OTP Verification</Text>
       </View>
 
       <Text style={styles.content}>
-        Enter the OTP number just sent you at
-        <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
+        Enter the OTP number sent to
+        <Text style={styles.phoneNumberText}> {phoneNumber}</Text>
       </Text>
+
       <View style={styles.OTPContainer}>
         <View style={styles.OTPbox}>
           <TextInput
@@ -104,10 +128,9 @@ const Verification = ({
           />
         </View>
       </View>
+
       <View>
-        <TouchableOpacity
-          style={styles.SigninButton}
-          onPress={() => console.log(otp[1],otp[2],otp[3],otp[4])}>
+        <TouchableOpacity style={styles.SigninButton} onPress={verifyOTP}>
           <Text style={styles.SigninButtonText}>Verify</Text>
         </TouchableOpacity>
       </View>

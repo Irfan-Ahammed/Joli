@@ -11,24 +11,9 @@ import {PageOne, PageTwo} from './index';
 const Stack = createStackNavigator();
 
 const SignUpScreen = () => {
-  const flatListRef = useRef(null); // Ref for FlatList
-  const [currentPage, setCurrentPage] = useState(0); // Track current page
   const navigation = useNavigation();
 
-  // Handle Page Change
-  const handlePageChange = index => {
-    flatListRef.current.scrollToIndex({index, animated: true});
-    setCurrentPage(index);
-  };
 
-  // Handle Back Button
-  const handleBack = () => {
-    if (currentPage > 0) {
-      handlePageChange(currentPage - 1); // Navigate to previous page
-    } else {
-      navigation.goBack(); // Exit the sign-up flow if on the first page
-    }
-  };
 
   return (
     <View style={styles.container}>

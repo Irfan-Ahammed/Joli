@@ -11,18 +11,21 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import {Separator, ToggleButton} from '../../components';
 import {Color, Fonts, Images} from '../../contants';
-import {useNavigation} from '@react-navigation/native';
 import Display from '../../utils/Display';
+import {signUpScreenOne} from '../../services/auth';
 
-const PageOne = () => {
+const PageOne = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isEmailFilled, setIsEmailFilled] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  console.log(error);
 
-  const navigation = useNavigation();
-
-  const navigateToPageTwo = () => {
-    navigation.navigate('PageTwo');
+  const successfullynavigate = () => {
+    setError('');
+    signUpScreenOne(email, password, navigation, setError);
+    setIsEmailFilled(true)
   };
   return (
     <View style={styles.container}>
@@ -41,6 +44,8 @@ const PageOne = () => {
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
       </View>
@@ -61,6 +66,8 @@ const PageOne = () => {
               secureTextEntry={isPasswordShow ? false : true}
               selectionColor={Color.DEFAULT_BLACK}
               style={styles.inputText}
+              value={password}
+              onChangeText={setPassword}
             />
             <Feather
               name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -72,6 +79,7 @@ const PageOne = () => {
           </View>
         </View>
       ) : null}
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <Text style={styles.privacyContainer}>
         By clicking Agree & Join or Countinue, you agree to the Joli
         <Text style={styles.privacy}> User Agreement, Privacy Policy </Text>and
@@ -81,7 +89,7 @@ const PageOne = () => {
       <View>
         <TouchableOpacity
           style={styles.SigninButton}
-          onPress={navigateToPageTwo}>
+          onPress={successfullynavigate}>
           <Text style={styles.SigninButtonText}>Agree & Join</Text>
         </TouchableOpacity>
       </View>
@@ -246,12 +254,19 @@ const styles = StyleSheet.create({
   privacyContainer: {
     fontSize: 12,
     marginHorizontal: 20,
-    marginTop: 20,
+    marginTop: 10,
   },
   privacy: {
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
     color: Color.BLUE,
   },
+  errorText:{
+    marginHorizontal:20,
+    textAlign:"center",
+    color:Color.DEFAULT_RED,
+    fontFamily:Fonts.POPPINS_MEDIUM,
+    fontSize:14,
+  }
 });
 
 export default PageOne;
