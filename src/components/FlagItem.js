@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor:Color.DEFAULT_WHITE
+    backgroundColor:Color.DEFAULT_WHITE,
+    
   },
   flagImage: {
     height: 25,

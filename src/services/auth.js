@@ -49,7 +49,7 @@ export const signUpScreenTwo = (firstName, lastName, navigation, setError) => {
       })
       .then(() => {
         console.log('User profile updated with name:', fullname);
-        navigation.navigate('RegisterPhone');
+        navigation.navigate('Signin');
         return fullname;
       })
       .catch(err => {

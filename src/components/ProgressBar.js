@@ -1,32 +1,45 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useRef, useEffect} from 'react';
+import {View, StyleSheet, Animated} from 'react-native';
 import Display from '../utils/Display';
-import { Color } from '../contants';
 
-const ProgressBar = ({currentPage, totalSteps}) => {
-  const progressWidth = (currentPage / totalSteps) * 100;
+const ProgressBar = ({progress, color}) => {
+  const animation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: progress, // Progress value between 0 and 1
+      duration: 3000, // Slow animation duration in milliseconds
+      useNativeDriver: false, // Set to false for layout properties
+    }).start();
+  }, [progress]);
+
+  const animatedWidth = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0%', '100%'],
+  });
 
   return (
-    <View style={styles.progressContainer}>
-      <View style={[styles.progressBar, {width: `${progressWidth}%`}]} />
+    <View style={styles.container}>
+      <Animated.View
+        style={[
+          styles.progressBar,
+          {width: animatedWidth, backgroundColor: color},
+        ]}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  progressContainer: {
-    height: 8,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 5,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    marginVertical: 20,
+  container: {
+    height: Display.setHeight(1.4),
     width: Display.setWidth(90),
-  },
-  progressBar: {
-    height: '100%',
-    backgroundColor: Color.DARK_SECONDARY,
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginVertical: 20,
+    alignSelf: 'center',
+    borderWidth: 1,
+    padding: 2,
   },
 });
-
 export default ProgressBar;

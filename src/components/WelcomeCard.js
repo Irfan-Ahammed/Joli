@@ -1,12 +1,18 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Display} from '../utils';
-import {Fonts, Images} from '../contants';
+import {Fonts, Animations, Color} from '../contants';
+import LottieView from 'lottie-react-native';
 
 const WelcomeCard = ({title, description, image}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={Images[image]} resizeMode="contain" />
+      <LottieView
+        style={styles.image}
+        source={Animations[image]}
+        autoPlay
+        loop
+      />
       <Text style={styles.titleText}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
     </View>
@@ -23,15 +29,15 @@ const styles = StyleSheet.create({
     width: Display.default.setWidth(100),
   },
   image: {
-    height: Display.default.setHeight(30),
-    width: Display.default.setWidth(60),
+    height: Display.default.setHeight(40),
+    width: Display.default.setWidth(90),
   },
   titleText: {
-    fontSize: 22,
+    fontSize: 19,
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
   },
   description: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: Fonts.POPPINS_REGULAR,
     textAlign: 'center',
     marginHorizontal: 20,

@@ -1,31 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   TextInput,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {Separator, ToggleButton} from '../../components';
-import {Color, Fonts, Images} from '../../contants';
+import {Separator} from '../../components';
+import {Color, Fonts} from '../../contants';
 import Display from '../../utils/Display';
 import {signUpScreenOne} from '../../services/auth';
 
-const PageOne = ({navigation}) => {
+const PageOne = ({navigation, route}) => {
+  const {setStatus, status} = route.params; // Access setStatus
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [isEmailFilled, setIsEmailFilled] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  console.log(error);
+  useEffect(() => {
+    console.log(status); // Will log whenever `status` changes
+  }, [status]);
 
   const successfullynavigate = () => {
+    // setStatus(0.5)
     setError('');
     signUpScreenOne(email, password, navigation, setError);
-    setIsEmailFilled(true)
+    setIsEmailFilled(true);
   };
   return (
     <View style={styles.container}>
@@ -40,12 +42,16 @@ const PageOne = ({navigation}) => {
           <TextInput
             placeholder="Email"
             textContentType="emailAddress"
-            onSubmitEditing={() => setIsEmailFilled(!isEmailFilled)}
+            onSubmitEditing={() => {
+              setIsEmailFilled(!isEmailFilled);
+              setStatus(0.15); // Update status when email input is submitted
+            }}
             placeholderTextColor={Color.DEFAULT_BLACK}
             selectionColor={Color.DEFAULT_BLACK}
             style={styles.inputText}
             value={email}
             onChangeText={setEmail}
+            onEndEditing={() => setStatus(0.25)} // Ensure it updates on focus loss
           />
         </View>
       </View>
@@ -68,6 +74,8 @@ const PageOne = ({navigation}) => {
               style={styles.inputText}
               value={password}
               onChangeText={setPassword}
+              onSubmitEditing={() => setStatus(0.5)}
+              onEndEditing={() => setStatus(0.5)}
             />
             <Feather
               name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -260,13 +268,14 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
     color: Color.BLUE,
   },
-  errorText:{
-    marginHorizontal:20,
-    textAlign:"center",
-    color:Color.DEFAULT_RED,
-    fontFamily:Fonts.POPPINS_MEDIUM,
-    fontSize:14,
-  }
+  errorText: {
+    marginHorizontal: 20,
+    textAlign: 'center',
+    color: Color.DEFAULT_RED,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    fontSize: 14,
+    marginTop: 10,
+  },
 });
 
 export default PageOne;

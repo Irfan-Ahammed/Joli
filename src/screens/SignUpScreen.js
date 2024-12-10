@@ -1,19 +1,34 @@
-import React, {useRef, useState} from 'react';
-import {View, Text, navigation, StyleSheet, StatusBar} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, StatusBar} from 'react-native';
 import {ProgressBar, Separator} from '../components';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Color, Fonts, General} from '../contants';
+import {Color, Fonts} from '../contants';
 import Display from '../utils/Display';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {PageOne, PageTwo} from './index';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
+const PROGRESS_COLORS = {
+  stepOne: '#00FFFF',
+  stepTwo: '#008080',
+  stepThree: '#00FF00',
+  stepFour: '#32CD32',
+};
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
-
-
+  const [status, setStatus] = useState(0.10); // Current progress step
+  const progressColor =
+    status === 0.25
+      ? PROGRESS_COLORS.stepOne
+      : status === 0.5
+      ? PROGRESS_COLORS.stepTwo
+      : status === 0.75
+      ? PROGRESS_COLORS.stepThree
+      : PROGRESS_COLORS.stepFour;
+  // console.log(status);
+  // console.log(progressColor);
 
   return (
     <View style={styles.container}>
@@ -28,24 +43,27 @@ const SignUpScreen = () => {
           size={30}
           onPress={() => navigation.goBack()} // Navigate back
         />
-
         <Text style={styles.headerTitle}>Sign Up</Text>
       </View>
-      <View style={styles.progressBar}>
-        <ProgressBar currentPage={1} totalSteps={3} />
-      </View>
-
-      <Text style={styles.title}> Create Your Account</Text>
+      <ProgressBar progress={status} color={progressColor} />
+      <Text style={styles.title}>Create Your Account</Text>
       <Text style={styles.content}>
         Start exploring job opportunities and connecting with employers
         effortlessly
       </Text>
-
       <Stack.Navigator
         initialRouteName="PageOne"
         screenOptions={{headerShown: false}}>
-        <Stack.Screen name="PageOne" component={PageOne} />
-        <Stack.Screen name="PageTwo" component={PageTwo} />
+        <Stack.Screen
+          name="PageOne"
+          component={PageOne}
+          initialParams={{setStatus,status}}
+        />
+        <Stack.Screen
+          name="PageTwo"
+          component={PageTwo}
+          initialParams={{setStatus}}
+        />
       </Stack.Navigator>
     </View>
   );
@@ -83,9 +101,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontFamily: Fonts.POPPINS_REGULAR,
   },
-  progressBar: {
-    alignItems: 'center',
-  },
 });
-
 export default SignUpScreen;

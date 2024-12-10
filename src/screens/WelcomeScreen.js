@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
   gettingStartedButton: {
     backgroundColor: Color.BLUE,
     borderRadius: 50,
-    paddingHorizontal: 50,
-    paddingVertical: 8,
+    width: Display.default.setWidth(60),
+    height: Display.default.setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2,
@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: Color.DEFAULT_WHITE,
     lineHeight: 20 * 1.4,
-    fontFamily:Fonts.POPPINS_MEDIUM
+    fontFamily: Fonts.POPPINS_MEDIUM,
   },
 });

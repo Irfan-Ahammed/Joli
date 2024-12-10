@@ -11,7 +11,8 @@ import {Color, Fonts} from '../../contants';
 import Display from '../../utils/Display';
 import {signUpScreenTwo} from '../../services/auth';
 
-const PageTwo = ({navigation}) => {
+const PageTwo = ({navigation, route}) => {
+  const {setStatus} = route.params; // Access setStatus
   const [isEmailFilled, setIsEmailFilled] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -21,6 +22,7 @@ const PageTwo = ({navigation}) => {
   const navigateToPageTwo = () => {
     setError('');
     signUpScreenTwo(firstName, lastName, navigation, setError);
+    
   };
   return (
     <View style={styles.container}>
@@ -34,6 +36,7 @@ const PageTwo = ({navigation}) => {
             style={styles.inputText}
             value={firstName}
             onChangeText={setFirstName}
+            onEndEditing={() => setStatus(0.75)} 
           />
         </View>
       </View>
@@ -49,6 +52,7 @@ const PageTwo = ({navigation}) => {
             style={styles.inputText}
             value={lastName}
             onChangeText={setLastName}
+            onEndEditing={() => setStatus(1)} 
           />
         </View>
       </View>
@@ -141,7 +145,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 20,
-    marginBottom:10
+    marginBottom: 10,
   },
   errorText: {
     marginHorizontal: 20,

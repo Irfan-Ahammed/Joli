@@ -9,16 +9,16 @@ const WELCOME_CONTENTS = [
     image: 'WelcomeJoli',
   },
   {
-    title: 'Discover Opportunities',
-    description:
-      'Explore a wide range of jobs near you. From daily gigs to part-time roles, Joli brings opportunities to your fingertips.',
-    image: 'DiscoverOpportunities',
-  },
-  {
     title: 'Get Rewarded',
     description:
       'Earn through consistent work. Build your profile and secure jobs that value your dedication and skills.',
     image: 'GetRewarded',
+  },
+  {
+    title: 'Discover Opportunities',
+    description:
+      'Explore a wide range of jobs near you. From daily gigs to part-time roles, Joli brings opportunities to your fingertips.',
+    image: 'DiscoverOpportunities',
   },
 ];
 const registerScreens = [

@@ -12,7 +12,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Separator, ToggleButton} from '../components';
 import {Color, Fonts, Images} from '../contants';
-import {useNavigation} from '@react-navigation/native';
 import Display from '../utils/Display';
 import {signIn} from '../services/auth';
 

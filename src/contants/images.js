@@ -1,8 +1,10 @@
 export default {
   LOGO_TITLE: require('../assets/images/LOGO_TEXT.png'),
-  DiscoverOpportunities: require('../assets/images/DiscoverOpportunities.png'),
-  GetRewarded: require('../assets/images/GetRewarded.png'),
-  WelcomeJoli: require('../assets/images/WelcomeJoli.png'),
   GOOGLE: require('../assets/images/Google.png'),
   FACEBOOK: require('../assets/images/facebook.png'),
+};
+export const Animations = {
+  DiscoverOpportunities: require('../assets/animations/DiscoverOpportunities.json'),
+  GetRewarded: require('../assets/animations/GetRewarded.json'),
+  WelcomeJoli: require('../assets/animations/WelcomeJoli.json'),
 };
