@@ -9,6 +9,7 @@ import {
   ForgetPassword,
   RegisterPhone,
   Verification,
+  HomeScreen,
 } from '../screens';
 
 const Stack = createStackNavigator();
@@ -22,6 +23,7 @@ const Navigators = () => {
         <Stack.Screen name="Signin" component={SigninScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgotPass" component={ForgetPassword} />
+        <Stack.Screen name="Home" component={<HomeScreen/>} />
         {/* <Stack.Screen name="RegisterPhone" component={RegisterPhone} />
         <Stack.Screen name="Verification" component={Verification} /> */}
       </Stack.Navigator>

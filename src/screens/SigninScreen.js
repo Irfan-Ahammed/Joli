@@ -14,9 +14,11 @@ import {Separator, ToggleButton} from '../components';
 import {Color, Fonts, Images} from '../contants';
 import Display from '../utils/Display';
 import {signIn} from '../services/auth';
+import {ActivityIndicator} from 'react-native-paper';
 
 const SigninScreen = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,7 +26,7 @@ const SigninScreen = ({navigation}) => {
 
   const successfullyLogedIn = () => {
     setError('');
-    signIn(email, password, navigation, setError);
+    signIn(email, password, navigation, setError, setLoading);
   };
   return (
     <View style={styles.container}>
@@ -123,12 +125,21 @@ const SigninScreen = ({navigation}) => {
         </Text>
       </View>
       <View>
-        <TouchableOpacity
-          style={styles.SigninButton}
-          onPress={successfullyLogedIn}>
-          <Text style={styles.SigninButtonText}>Sign In</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={Color.BLUE}
+            style={{marginVertical: 20}}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.SigninButton}
+            onPress={successfullyLogedIn}>
+            <Text style={styles.SigninButtonText}>Sign In</Text>
+          </TouchableOpacity>
+        )}
       </View>
+
       <View style={styles.signUpContainer}>
         <Text style={styles.accountText}>Don't have an account?</Text>
         <Text
@@ -202,7 +213,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    
   },
   rememberText: {
     marginLeft: 10,
@@ -321,7 +331,7 @@ const styles = StyleSheet.create({
     color: Color.DEFAULT_RED,
     fontFamily: Fonts.POPPINS_MEDIUM,
     fontSize: 14,
-    marginTop:7,
+    marginTop: 7,
   },
 });
 

@@ -61,10 +61,11 @@ export const signUpScreenTwo = (firstName, lastName, navigation, setError) => {
     return Promise.reject(new Error('No user is logged in'));
   }
 };
-export const signIn = (email, password, navigation, setError) => {
+export const signIn = (email, password, navigation, setError,setLoading) => {
   return auth()
     .signInWithEmailAndPassword(email.trim(), password)
     .then(() => {
+    setLoading(true)
       console.log('User signed in with UID:', auth().currentUser.uid);
       navigation.navigate("Home")
       return auth().currentUser.uid;
