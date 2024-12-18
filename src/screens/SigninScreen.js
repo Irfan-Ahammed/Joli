@@ -15,8 +15,12 @@ import {Color, Fonts, Images} from '../contants';
 import Display from '../utils/Display';
 import {signIn} from '../services/auth';
 import {ActivityIndicator} from 'react-native-paper';
+import {connect} from 'react-redux';
+import {GeneralAction} from '../actions';
+import {useDispatch,useSelector} from 'react-redux';
 
 const SigninScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -26,7 +30,7 @@ const SigninScreen = ({navigation}) => {
 
   const successfullyLogedIn = () => {
     setError('');
-    signIn(email, password, navigation, setError, setLoading);
+    signIn(email, password, navigation, setError, setLoading,dispatch);
   };
   return (
     <View style={styles.container}>

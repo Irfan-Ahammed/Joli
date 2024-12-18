@@ -1,4 +1,6 @@
 import auth from '@react-native-firebase/auth';
+import StorageService from './StorageService';
+import { GeneralAction } from '../actions';
 
 const getFriendlyErrorMessage = errorCode => {
   const errorMessages = {
@@ -61,19 +63,35 @@ export const signUpScreenTwo = (firstName, lastName, navigation, setError) => {
     return Promise.reject(new Error('No user is logged in'));
   }
 };
-export const signIn = (email, password, navigation, setError,setLoading) => {
-  return auth()
-    .signInWithEmailAndPassword(email.trim(), password)
-    .then(() => {
-    setLoading(true)
-      console.log('User signed in with UID:', auth().currentUser.uid);
-      navigation.navigate("Home")
-      return auth().currentUser.uid;
-    })
-    .catch(err => {
-      const friendlyMessage = getFriendlyErrorMessage(err.code);
-      setError(friendlyMessage);
-    });
+export const signIn = async (
+  email,
+  password,
+  navigation,
+  setError,
+  setLoading,
+  dispatch,
+) => {
+  try {
+    setLoading(true);
+    await auth().signInWithEmailAndPassword(email.trim(), password);
+
+    const user = auth().currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      console.log('User signed in with UID:', user.uid);
+      console.log('Token:', token);
+
+      StorageService.setToken(token).then(()=>{
+        dispatch(GeneralAction.setToken(token))
+      })
+      navigation.navigate('Home');
+    }
+  } catch (err) {
+    const friendlyMessage = getFriendlyErrorMessage(err.code);
+    setError(friendlyMessage);
+  } finally {
+    setLoading(false);
+  }
 };
 
 export const signOut = () => {
